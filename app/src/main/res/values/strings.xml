@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Uber</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="ic_house_desc">홈</string>
+    <string name="ic_home_desc">서비스</string>
+    <string name="ic_activity_desc">활동</string>
+    <string name="ic_account_desc">계정</string>
 </resources>

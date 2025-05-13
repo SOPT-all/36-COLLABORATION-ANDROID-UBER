@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun InformationScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToVehicle: () -> Unit,
+    navigateUp: () -> Unit
 ) {
 
 }

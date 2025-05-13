@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun LocationScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToTime: () -> Unit,
+    navigateUp: () -> Unit,
 ) {
 
 }

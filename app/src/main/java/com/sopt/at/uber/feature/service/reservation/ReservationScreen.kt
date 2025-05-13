@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ReservationScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToLocation: () -> Unit,
+    navigateUp: () -> Unit
 ) {
 
 }

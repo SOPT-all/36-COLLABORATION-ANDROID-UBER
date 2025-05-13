@@ -5,7 +5,8 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun HistoryScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateUp: () -> Unit
 ) {
 
 }

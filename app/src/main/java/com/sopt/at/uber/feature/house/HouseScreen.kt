@@ -1,4 +1,4 @@
-package com.sopt.at.uber.feature.home
+package com.sopt.at.uber.feature.house
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun HomeScreen(
-    modifier: Modifier = Modifier,
-    navigateToReservation: () -> Unit
-) {
+fun HouseScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,7 +20,7 @@ fun HomeScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "home Screen",
+            text = "house Screen",
             color = Color.Black
         )
     }
