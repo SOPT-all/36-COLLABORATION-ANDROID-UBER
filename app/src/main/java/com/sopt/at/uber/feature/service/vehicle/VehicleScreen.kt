@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun VehicleScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToHistory: () -> Unit,
+    navigateUp: () -> Unit
 ) {
 
 }

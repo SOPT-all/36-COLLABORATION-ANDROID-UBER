@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun TimeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToInformation : () -> Unit,
+    navigateUp : () -> Unit
 ) {
 
 }
