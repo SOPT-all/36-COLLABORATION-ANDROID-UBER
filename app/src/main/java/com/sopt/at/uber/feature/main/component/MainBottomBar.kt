@@ -29,7 +29,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.at.uber.core.designsystem.ui.theme.UberTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
 import com.sopt.at.uber.core.util.noRippleClickable
 import com.sopt.at.uber.feature.main.MainNavTab
 import kotlinx.collections.immutable.ImmutableList
@@ -112,7 +112,7 @@ fun RowScope.MainBottomBarItem(
 @Preview
 @Composable
 private fun MainBottomBarPreview() {
-    UberTheme {
+    AppTheme {
         var currentTab by remember { mutableStateOf(MainNavTab.HOME) }
         MainBottomBar(
             visible = true,
