@@ -5,4 +5,8 @@
     <string name="ic_home_desc">서비스</string>
     <string name="ic_activity_desc">활동</string>
     <string name="ic_account_desc">계정</string>
+    
+    
+<!-- information screen -->
+    <string name="select_car_desc">"상황에 최적화 된 차량과 기사님을 만나보세요\n가장 훌륭한 탑승 경험을 누릴 수 있어요"</string>
 </resources>
