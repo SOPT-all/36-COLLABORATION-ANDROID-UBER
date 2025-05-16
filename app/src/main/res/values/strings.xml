@@ -5,4 +5,26 @@
     <string name="ic_home_desc">서비스</string>
     <string name="ic_activity_desc">활동</string>
     <string name="ic_account_desc">계정</string>
+
+    <!-- Reservation Screen-->
+    <string name="reservation_top_bar_title">예약하기</string>
+    <string name="reservation_notice_days">최대 90일 전부터 차량을 예약할 수 있습니다.</string>
+    <string name="reservation_notice_time">이용 시 대기 시간이 요금에 포함되어 있습니다.</string>
+    <string name="reservation_notice_cancel">픽업 1시간 전까지 무료로 취소하세요. 예약 수수료 적용됩니다.</string>
+    <string name="reservation_subTitle">다양한 상황에서\n예약 기능을 이용해보세요</string>
+
+    <!-- Location Screen-->
+    <string name="location_top_bar_title">차량 서비스 예약</string>
+    <string name="location_hint_departure">출발지 선택</string>
+    <string name="location_hint_destination">도착지 선택</string>
+
+    <!-- Custom Car Item -->
+    <string name="custom_car_title_airport">공항 갈 때</string>
+    <string name="custom_car_title_child">아기와 함께 할 때</string>
+    <string name="custom_car_title_long_way">장거리 운전을 해야할 때</string>
+    <string name="custom_car_title_foreigner">외국인 손님과 함께</string>
+    <string name="custom_car_sub_title_airport">캐리어 걱정 없이 쾌적하게 이동</string>
+    <string name="custom_car_sub_title_child">카시트로 안전하게, 걱정없는 이동</string>
+    <string name="custom_car_sub_title_long_way">렌터카 빌릴 필요 없이 편안하게</string>
+    <string name="custom_car_sub_title_foreigner">외국어 가능 기사님으로 문제없는 의사소통</string>
 </resources>
