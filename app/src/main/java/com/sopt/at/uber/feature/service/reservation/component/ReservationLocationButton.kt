@@ -20,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
+import com.sopt.at.uber.core.util.noRippleClickable
 
 @Composable
 fun ReservationLocationButton(
     hint: String,
     leadingContent: @Composable (BoxScope.() -> Unit),
+    onLocationClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -34,7 +36,8 @@ fun ReservationLocationButton(
                 color = colors.bgGray,
                 shape = RoundedCornerShape(30.dp)
             )
-            .padding(horizontal = 20.dp, vertical = 12.dp),
+            .padding(horizontal = 20.dp, vertical = 12.dp)
+            .noRippleClickable(onLocationClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -59,6 +62,7 @@ fun ReservationLocationButton(
 @Composable
 private fun ReservationLocationButtonPreview() {
     ReservationLocationButton(
+        onLocationClick = {},
         leadingContent = {
             Icon(
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_departures),

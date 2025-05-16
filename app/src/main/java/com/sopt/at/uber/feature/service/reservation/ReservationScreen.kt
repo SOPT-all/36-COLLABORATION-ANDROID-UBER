@@ -28,7 +28,6 @@ import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import com.sopt.at.uber.core.type.CustomCarType
 import com.sopt.at.uber.core.type.ReservationNoticeType
-import com.sopt.at.uber.core.util.noRippleClickable
 import com.sopt.at.uber.feature.service.reservation.component.ReservationLocationButton
 import com.sopt.at.uber.feature.service.reservation.component.ReservationNoticeItem
 import com.sopt.at.uber.feature.service.reservation.component.ReservationTopBar
@@ -48,7 +47,6 @@ fun ReservationScreen(
         Column(
             modifier = modifier
                 .background(color = colors.bgWhite)
-                .verticalScroll(rememberScrollState())
         ) {
             ReservationTopBar(
                 onBackButtonClick = navigateUp
@@ -67,19 +65,24 @@ fun ReservationScreen(
             )
             Spacer(Modifier.height(20.dp))
 
-            ReservationNoticeSection()
 
-            Spacer(Modifier.height(20.dp))
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                color = colors.bgGraySub,
-                thickness = 1.dp
-            )
-            Spacer(Modifier.height(20.dp))
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            ) {
+                ReservationNoticeSection()
 
-            CarTypeSelectionSection()
+                Spacer(Modifier.height(20.dp))
+                HorizontalDivider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    color = colors.bgGraySub,
+                    thickness = 1.dp
+                )
+                Spacer(Modifier.height(20.dp))
+
+                CarTypeSection()
+            }
         }
     }
 }
@@ -105,7 +108,7 @@ private fun LocationSelectionSection(
                     tint = colors.textSub3
                 )
             },
-            modifier = Modifier.noRippleClickable(onLocationClick)
+            onLocationClick = onLocationClick
         )
         ReservationLocationButton(
             hint = stringResource(R.string.location_hint_destination),
@@ -116,7 +119,7 @@ private fun LocationSelectionSection(
                     tint = colors.textSub3
                 )
             },
-            modifier = Modifier.noRippleClickable(onLocationClick)
+            onLocationClick = onLocationClick
         )
     }
 }
@@ -141,7 +144,7 @@ private fun ReservationNoticeSection(
 }
 
 @Composable
-private fun CarTypeSelectionSection(
+private fun CarTypeSection(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -196,7 +199,7 @@ fun PreviewReservationNoticeSection() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCarTypeSelectionSection() {
-    CarTypeSelectionSection()
+    CarTypeSection()
 }
 
 @Preview(showBackground = true)
