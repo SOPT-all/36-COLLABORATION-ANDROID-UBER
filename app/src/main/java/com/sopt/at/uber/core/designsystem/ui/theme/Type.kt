@@ -25,7 +25,7 @@ data class AppTypography(
     val title2Sb30: TextStyle,
     val title3Eb28: TextStyle,
     val title4B18: TextStyle,
-    val title5Sb16: TextStyle,
+    val body1SB16: TextStyle,
     val body1M16: TextStyle,
     val body2M14: TextStyle,
     val caption1M12: TextStyle,
@@ -69,7 +69,7 @@ val defaultAppTypography = AppTypography(
         fontSize = 18.sp,
         lineHeight = 27.sp
     ),
-    title5Sb16 = TextStyle(
+    body1SB16 = TextStyle(
         fontFamily = SuitSemiBold,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
