@@ -33,7 +33,7 @@ fun UberPrimaryButton(
     ) {
         Text(
             text = text,
-            style = AppTheme.typography.title5Sb16
+            style = AppTheme.typography.body1SB16
         )
     }
 }

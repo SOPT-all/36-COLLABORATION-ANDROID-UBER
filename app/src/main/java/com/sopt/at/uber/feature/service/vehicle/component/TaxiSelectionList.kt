@@ -29,6 +29,8 @@ import com.sopt.at.uber.feature.service.vehicle.BasicTaxiType
 import com.sopt.at.uber.feature.service.vehicle.SelectTaxi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 
 
 @Composable
@@ -54,12 +56,12 @@ fun TaxiOptionItem(
     selected: Boolean,
     onTaxiClick: () -> Unit
 ) {
-    val borderColor = if (selected) AppTheme.colors.bgBlack else Color.Transparent
+    val borderColor = if (selected) colors.bgBlack else Color.Transparent
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(AppTheme.colors.bgWhite)
+            .background(colors.bgWhite)
             .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(12.dp))
             .padding(vertical = 9.5.dp, horizontal = 6.dp)
             .noRippleClickable(onTaxiClick),
@@ -76,25 +78,25 @@ fun TaxiOptionItem(
 
         Column(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(taxiType.taxiName, style = AppTheme.typography.title4B18)
+                Text(taxiType.taxiName, style = typography.title4B18)
                 Spacer(Modifier.width(8.dp))
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_uber_user),
                     contentDescription = "maxCount",
                 )
                 Spacer(Modifier.width(2.dp))
-                Text("${taxiType.capacity}", style = AppTheme.typography.caption1M12)
+                Text("${taxiType.capacity}", style = typography.caption1M12)
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     taxiType.description,
-                    style = AppTheme.typography.caption1M12,
-                    color = AppTheme.colors.textSub3
+                    style = typography.caption1M12,
+                    color = colors.textSub3
                 )
             }
             Text(
                 taxiType.priceRange,
-                style = AppTheme.typography.body1M16,
-                color = AppTheme.colors.textSub2
+                style = typography.body1M16,
+                color = colors.textSub2
             )
         }
     }

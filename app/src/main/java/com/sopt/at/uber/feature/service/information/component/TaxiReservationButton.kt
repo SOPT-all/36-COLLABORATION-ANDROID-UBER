@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 
 @Composable
 fun TaxiReservationButton(
@@ -26,17 +28,17 @@ fun TaxiReservationButton(
             .fillMaxWidth()
             .padding(vertical = 6.dp),
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, AppTheme.colors.bgBlack),
+        border = BorderStroke(1.dp, colors.bgBlack),
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.bgWhite,
-            contentColor = AppTheme.colors.textPrimary
+            containerColor = colors.bgWhite,
+            contentColor = colors.textPrimary
         ),
         contentPadding = PaddingValues(vertical = 14.dp)
 
     ) {
         Text(
             text = text,
-            style = AppTheme.typography.title5Sb16
+            style = typography.body1SB16
         )
     }
 }
