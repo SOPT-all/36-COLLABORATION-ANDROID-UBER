@@ -17,6 +17,9 @@
     <string name="location_top_bar_title">차량 서비스 예약</string>
     <string name="location_hint_departure">출발지 선택</string>
     <string name="location_hint_destination">도착지 선택</string>
+    <string name="location_current_search_title">최근 검색어</string>
+    <string name="location_current_search_delete_all">전체 삭제</string>
+    <string name="location_description_delete">삭제</string>
 
     <!-- Custom Car Item -->
     <string name="custom_car_title_airport">공항 갈 때</string>
