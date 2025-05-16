@@ -65,6 +65,7 @@ fun LocationScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
+            .background(color = colors.bgWhite)
     ) {
         // TODO: 종훈이가 구현한 TopBar 붙이기
         item {
@@ -123,7 +124,8 @@ fun LocationScreen(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             focusManager.clearFocus()
-                            navigateToTime()
+                            if(departure.isNotBlank() && destination.isNotBlank())
+                                navigateToTime()
                         }
                     )
                 )
