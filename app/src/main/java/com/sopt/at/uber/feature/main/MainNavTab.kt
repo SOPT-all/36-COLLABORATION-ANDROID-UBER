@@ -20,7 +20,7 @@ import com.sopt.at.uber.feature.house.navigation.House
 
 enum class MainNavTab (
     @DrawableRes val icon: Int,
-    @StringRes internal val contentDescription: Int,
+    @StringRes val contentDescription: Int,
     val route: MainTabRoute
 ){
     HOUSE(
