@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 
 
 @Composable
@@ -25,13 +27,13 @@ fun CustomInfoContent(
         Text(
             modifier = Modifier.padding(vertical = 4.5.dp),
             text = title,
-            style = AppTheme.typography.title4B18,
-            color = AppTheme.colors.textPrimary
+            style = typography.title4B18,
+            color = colors.textPrimary
         )
         Text(modifier = Modifier.padding(bottom = 10.dp),
             text = description,
-            style = AppTheme.typography.caption1M12,
-            color = AppTheme.colors.textSub2
+            style = typography.caption1M12,
+            color = colors.textSub2
         )
 
         content()
@@ -47,7 +49,7 @@ fun TestCustomInfoContent() {
         Column(
             Modifier
                 .fillMaxWidth()
-                .background(AppTheme.colors.bgWhite)
+                .background(colors.bgWhite)
                 .padding(horizontal = 16.dp)
         ) {
             CustomInfoContent(

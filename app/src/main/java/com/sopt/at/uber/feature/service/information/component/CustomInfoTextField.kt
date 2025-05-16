@@ -17,7 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
-import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 
 @Composable
 fun CustomInfoTextField(
@@ -31,7 +32,7 @@ fun CustomInfoTextField(
             .background(Color.White, shape = RoundedCornerShape(30.dp))
             .border(
                 width = 1.dp,
-                color = AppTheme.colors.bgGraySub,
+                color = colors.bgGraySub,
                 shape = RoundedCornerShape(30.dp)
             )
             .padding(horizontal = 20.dp, vertical = 12.dp)
@@ -46,7 +47,7 @@ fun CustomInfoTextField(
 
         Text(
             text = value,
-            style = AppTheme.typography.title5Sb16
+            style = typography.body1SB16
         )
     }
 }

@@ -13,6 +13,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 
 enum class TimeInfoType {
     PICKUP, ARRIVAL
@@ -35,72 +37,73 @@ fun CustomTimeInfo(
         TimeInfoType.ARRIVAL -> "예정 도착 시간"
     }
 
-    Column(modifier = modifier){
-        Text(modifier = Modifier.padding(vertical = 4.5.dp),
+    Column(modifier = modifier) {
+        Text(
+            modifier = Modifier.padding(vertical = 4.5.dp),
             text = title,
-            style = AppTheme.typography.title4B18,
-            color = AppTheme.colors.textPrimary
+            style = typography.title4B18,
+            color = colors.textPrimary
         )
 
         Text(buildAnnotatedString {
             if (type == TimeInfoType.PICKUP) {
                 withStyle(
-                    AppTheme.typography.title5Sb16.toSpanStyle()
-                        .copy(color = AppTheme.colors.textPrimary)
+                    typography.body1SB16.toSpanStyle()
+                        .copy(color = colors.textPrimary)
                 ) {
                     append(date)
                 }
                 withStyle(
-                    AppTheme.typography.caption1M12.toSpanStyle()
-                        .copy(color = AppTheme.colors.textSub1)
+                    typography.caption1M12.toSpanStyle()
+                        .copy(color = colors.textSub1)
                 ) {
                     append("월 ")
                 }
                 withStyle(
-                    AppTheme.typography.title5Sb16.toSpanStyle()
-                        .copy(color = AppTheme.colors.textPrimary)
+                    typography.body1SB16.toSpanStyle()
+                        .copy(color = colors.textPrimary)
                 ) {
                     append(day)
                 }
                 withStyle(
-                    AppTheme.typography.caption1M12.toSpanStyle()
-                        .copy(color = AppTheme.colors.textSub1)
+                    typography.caption1M12.toSpanStyle()
+                        .copy(color = colors.textSub1)
                 ) {
                     append("일 ")
                 }
                 withStyle(
-                    AppTheme.typography.title5Sb16.toSpanStyle()
-                        .copy(color = AppTheme.colors.textPrimary)
+                    typography.body1SB16.toSpanStyle()
+                        .copy(color = colors.textPrimary)
                 ) {
                     append(weekday)
                 }
                 withStyle(
-                    AppTheme.typography.caption1M12.toSpanStyle()
-                        .copy(color = AppTheme.colors.textSub1)
+                    typography.caption1M12.toSpanStyle()
+                        .copy(color = colors.textSub1)
                 ) {
                     append(" / ")
                 }
             }
 
             withStyle(
-                AppTheme.typography.caption1M12.toSpanStyle().copy(color = AppTheme.colors.textSub1)
+                typography.caption1M12.toSpanStyle().copy(color = colors.textSub1)
             ) {
                 append("$meridiem  ")
             }
             withStyle(
-                AppTheme.typography.title5Sb16.toSpanStyle()
-                    .copy(color = AppTheme.colors.textPrimary)
+                typography.body1SB16.toSpanStyle()
+                    .copy(color = colors.textPrimary)
             ) {
                 append(hour)
             }
             withStyle(
-                AppTheme.typography.caption1M12.toSpanStyle().copy(color = AppTheme.colors.textSub1)
+                typography.caption1M12.toSpanStyle().copy(color = colors.textSub1)
             ) {
                 append(":")
             }
             withStyle(
-                AppTheme.typography.title5Sb16.toSpanStyle()
-                    .copy(color = AppTheme.colors.textPrimary)
+                typography.body1SB16.toSpanStyle()
+                    .copy(color = colors.textPrimary)
             ) {
                 append(minute)
             }
@@ -110,8 +113,8 @@ fun CustomTimeInfo(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "예상 운행 시간 약 ${duration}분 소요 예상",
-                style = AppTheme.typography.caption1M12,
-                color = AppTheme.colors.textSub2
+                style = typography.caption1M12,
+                color = colors.textSub2
             )
         }
     }
@@ -121,7 +124,7 @@ fun CustomTimeInfo(
 @Composable
 fun TestCustomTimeInfo() {
     AppTheme() {
-        Column(modifier = Modifier.background(AppTheme.colors.bgWhite)) {
+        Column(modifier = Modifier.background(colors.bgWhite)) {
             CustomTimeInfo(
                 type = TimeInfoType.PICKUP,
                 date = "05",

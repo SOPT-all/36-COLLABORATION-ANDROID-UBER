@@ -12,8 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
-import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
 import com.sopt.at.uber.core.util.noRippleClickable
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 
 @Composable
 fun TopBar(
@@ -36,8 +37,8 @@ fun TopBar(
         )
         Text(
             text = title,
-            style = AppTheme.typography.title4B18,
-            color = AppTheme.colors.bgBlack,
+            style = typography.title4B18,
+            color = colors.bgBlack,
             modifier = Modifier.align(Alignment.Center)
         )
 

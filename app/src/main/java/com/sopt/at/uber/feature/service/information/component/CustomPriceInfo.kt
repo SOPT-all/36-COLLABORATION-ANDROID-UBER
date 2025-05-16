@@ -14,7 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
-import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import java.text.DecimalFormat
 
 @Composable
@@ -30,8 +31,8 @@ fun CustomPriceInfo(
         ) {
             Text(
                 text = "예상 결제 금액",
-                style = AppTheme.typography.title4B18,
-                color = AppTheme.colors.textPrimary
+                style = typography.title4B18,
+                color = colors.textPrimary
             )
             Spacer(modifier = Modifier.width(5.dp))
             Icon(
@@ -42,8 +43,8 @@ fun CustomPriceInfo(
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = description,
-                style = AppTheme.typography.caption1M12,
-                color = AppTheme.colors.textSub3
+                style = typography.caption1M12,
+                color = colors.textSub3
             )
         }
 
@@ -54,26 +55,26 @@ fun CustomPriceInfo(
         ) {
             Text(
                 text = "₩",
-                style = AppTheme.typography.caption1M12,
-                color = AppTheme.colors.textSub1
+                style = typography.caption1M12,
+                color = colors.textSub1
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = formatPrice(minPrice),
-                style = AppTheme.typography.title5Sb16,
-                color = AppTheme.colors.textPrimary
+                style = typography.body1SB16,
+                color = colors.textPrimary
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "-",
-                style = AppTheme.typography.caption1M12,
-                color = AppTheme.colors.textPrimary
+                style = typography.caption1M12,
+                color = colors.textPrimary
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = formatPrice(maxPrice),
-                style = AppTheme.typography.title5Sb16,
-                color = AppTheme.colors.textPrimary
+                style = typography.body1SB16,
+                color = colors.textPrimary
             )
         }
     }
