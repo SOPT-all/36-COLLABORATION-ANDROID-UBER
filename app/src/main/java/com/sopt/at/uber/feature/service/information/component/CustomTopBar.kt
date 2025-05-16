@@ -19,6 +19,7 @@ import com.sopt.at.uber.core.util.noRippleClickable
 fun TopBar(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
+    title: String
 ) {
     Box(
         modifier = modifier
@@ -34,7 +35,7 @@ fun TopBar(
                 .padding(6.dp)
         )
         Text(
-            text = "차량 서비스 예약",
+            text = title,
             style = AppTheme.typography.title4B18,
             color = AppTheme.colors.bgBlack,
             modifier = Modifier.align(Alignment.Center)

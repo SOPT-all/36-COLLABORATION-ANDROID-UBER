@@ -44,7 +44,8 @@ fun InformationScreen(
         ) {
             TopBar(
                 onBackClick = navigateUp,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                title = "차량 서비스 예약"
             )
             Text(
                 modifier = Modifier.padding(horizontal = 17.5.dp, vertical = 14.5.dp),
