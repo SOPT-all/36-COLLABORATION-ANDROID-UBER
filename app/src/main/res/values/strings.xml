@@ -6,8 +6,14 @@
     <string name="ic_activity_desc">활동</string>
     <string name="ic_account_desc">계정</string>
 
+    <!-- vehicle screen-->
+    <string name="vehicle_select_basic_car_desc">우버가 제공하는 기본 택시들을 이용해보세요.\n안전하고 편리한 여정을 보장합니다.</string>
+    <string name="vehicle_situation_proposal_title">상황별 맞춤 차량 제안</string>
+    <string name="vehicle_basic_proposal_title">우버 기본 택시 제안</string>
+
     <!-- information screen -->
-    <string name="select_car_desc">"상황에 최적화 된 차량과 기사님을 만나보세요\n가장 훌륭한 탑승 경험을 누릴 수 있어요"</string>
+    <string name="information_select_car_desc">상황에 최적화 된 차량과 기사님을 만나보세요\n가장 훌륭한 탑승 경험을 누릴 수 있어요</string>
+
 
     <!-- Reservation Screen-->
     <string name="reservation_top_bar_title">예약하기</string>
