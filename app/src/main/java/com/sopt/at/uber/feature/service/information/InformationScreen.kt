@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.component.UberPrimaryButton
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import com.sopt.at.uber.feature.service.information.component.*
 
 @Composable
@@ -34,7 +36,7 @@ fun InformationScreen(
                     .padding(horizontal = 16.dp, vertical = 6.dp)
             )
         },
-        containerColor = AppTheme.colors.bgWhite
+        containerColor = colors.bgWhite
     ) { innerPadding ->
         Column(
             modifier = modifier
@@ -50,8 +52,8 @@ fun InformationScreen(
             Text(
                 modifier = Modifier.padding(horizontal = 17.5.dp, vertical = 14.5.dp),
                 text = "출발/도착 장소",
-                style = AppTheme.typography.title4B18,
-                color = AppTheme.colors.bgBlack,
+                style = typography.title4B18,
+                color = colors.bgBlack,
             )
             CustomInfoTextField(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
@@ -76,7 +78,7 @@ fun InformationScreen(
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 10.dp),
                 thickness = 6.dp,
-                color = AppTheme.colors.bgGray
+                color = colors.bgGray
             )
 
             CustomTimeInfo(
@@ -104,13 +106,13 @@ fun InformationScreen(
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 10.dp),
                 thickness = 6.dp,
-                color = AppTheme.colors.bgGray
+                color = colors.bgGray
             )
 
             CustomInfoContent(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                 title = "차량 선택",
-                description = stringResource(R.string.select_car_desc)
+                description = stringResource(R.string.information_select_car_desc)
             ) {
                 TaxiReservationButton(
                     onClick = navigateToVehicle,
@@ -121,7 +123,7 @@ fun InformationScreen(
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 10.dp),
                 thickness = 6.dp,
-                color = AppTheme.colors.bgGray
+                color = colors.bgGray
             )
 
             CustomPriceInfo(
@@ -134,7 +136,7 @@ fun InformationScreen(
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 10.dp),
                 thickness = 6.dp,
-                color = AppTheme.colors.bgGray
+                color = colors.bgGray
             )
 
             Row(
@@ -154,8 +156,8 @@ fun InformationScreen(
 
                 Text(
                     text = "직접결제",
-                    style = AppTheme.typography.title5Sb16,
-                    color = AppTheme.colors.textPrimary
+                    style = typography.body1SB16,
+                    color = colors.textPrimary
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
