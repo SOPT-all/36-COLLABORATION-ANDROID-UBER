@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,6 +48,7 @@ fun LocationTextField(
     onValueChange: (String) -> Unit,
     hint: String,
     modifier: Modifier = Modifier,
+    focusRequester: FocusRequester = remember { FocusRequester() },
     enabled: Boolean = true,
     textFieldBorderColor: Color? = null,
     leadingContent: @Composable (BoxScope.() -> Unit) = {},
@@ -57,15 +58,14 @@ fun LocationTextField(
     onFocusChange: (Boolean) -> Unit = {},
 ) {
     var isFocused by remember { mutableStateOf(false) }
-    val focusRequester = remember { FocusRequester() }
     val borderColor =
         textFieldBorderColor
             ?: when {
-                isFocused -> Color.Transparent
+                isFocused || value.isEmpty()-> Color.Transparent
                 else -> colors.bgGraySub
             }
-    val textColor = if (isFocused) colors.textSub2 else colors.textPrimary
-    val backgroundColor = if (isFocused) colors.bgGray else colors.bgWhite
+    val textColor = if (isFocused || value.isEmpty()) colors.textSub2 else colors.textPrimary
+    val backgroundColor = if (isFocused || value.isEmpty()) colors.bgGray else colors.bgWhite
 
     Column(
         modifier = modifier
@@ -110,7 +110,7 @@ fun LocationTextField(
                             .wrapContentWidth(align = Alignment.End),
                         contentAlignment = Alignment.Center
                     ) {
-                        if(value.isNotEmpty() && !isFocused)
+                        if (value.isNotEmpty() && !isFocused)
                            Icon(
                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_delete),
                                contentDescription = "",
@@ -141,6 +141,7 @@ fun LocationTextField(
                     isFocused = it.isFocused
                     onFocusChange(isFocused)
                 }
+                .focusRequester(focusRequester)
         )
     }
 }
