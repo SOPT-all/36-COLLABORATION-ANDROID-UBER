@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.sopt.at.uber.core.navigation.Route
-import com.sopt.at.uber.feature.service.time.TimeScreen
+import com.sopt.at.uber.feature.service.time.screen.TimeScreen
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToTime(navOptions: NavOptions? = null) {
@@ -20,9 +20,7 @@ fun NavGraphBuilder.timeGraph(
 ) {
     composable<Time> {
         TimeScreen(
-            modifier = modifier,
-            navigateToInformation = navigateToInformation,
-            navigateUp = navigateUp
+            onNextClick = navigateUp
         )
     }
 }
