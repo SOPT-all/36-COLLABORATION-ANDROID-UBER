@@ -1,6 +1,7 @@
 package com.sopt.at.uber.core.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +36,13 @@ fun CustomCarItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .then(
+                if (isGrayColor) Modifier.border(
+                    width = 1.dp,
+                    color = colors.bgGraySub,
+                    shape = RoundedCornerShape(12.dp)
+                ) else Modifier
+            )
             .background(
                 color = colors.bgWhite,
                 shape = RoundedCornerShape(12.dp)
@@ -61,7 +69,7 @@ fun CustomCarItem(
         Column(
             modifier = Modifier.padding(vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-        ){
+        ) {
             Text(
                 text = stringResource(type.subTitle),
                 style = typography.caption1M12.merge(color = colors.textSub1)
