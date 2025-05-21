@@ -13,6 +13,8 @@
 
     <!-- information screen -->
     <string name="information_select_car_desc">상황에 최적화 된 차량과 기사님을 만나보세요\n가장 훌륭한 탑승 경험을 누릴 수 있어요</string>
+    <string name="information_unselect_coupon_desc">적용 가능한 할인 혜택이 없습니다</string>
+    <string name="information_select_coupon_desc">최고 할인 혜택이 자동 적용된 금액입니다</string>
 
 
     <!-- Reservation Screen-->
