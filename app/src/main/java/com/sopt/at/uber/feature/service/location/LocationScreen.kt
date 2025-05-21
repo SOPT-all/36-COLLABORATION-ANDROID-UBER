@@ -153,6 +153,7 @@ fun LocationScreen(
         CurrentSearchHeader(
             onDeleteClick = {
                 // TODO: 시현이가 전체 삭제 연결
+                locationViewModel.deleteAllSearchHistory()
             }
         )
         LazyColumn {
