@@ -12,6 +12,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.component.CustomCarItem
 import com.sopt.at.uber.core.component.UberPrimaryButton
@@ -30,20 +33,47 @@ import com.sopt.at.uber.feature.service.information.component.TopBar
 import com.sopt.at.uber.feature.service.vehicle.component.TaxiSelectionList
 import kotlinx.collections.immutable.toImmutableList
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 
 @Composable
 fun VehicleScreen(
     modifier: Modifier = Modifier,
-    navigateToHistory: () -> Unit,
-    navigateUp: () -> Unit
+    navigateToInformation: () -> Unit,
+    navigateUp: () -> Unit,
+    viewModel: VehicleViewModel = hiltViewModel(),
+    sharedViewModel: ServiceSharedViewModel = hiltViewModel()
+
 ) {
-    var selectedType: SelectTaxi by remember { mutableStateOf(AirportTaxiType.STANDARD) }
+    val vehicleState by viewModel.vehicleState.collectAsState()
+    var selectedId by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(Unit) {
+        viewModel.getTaxiLists()
+    }
+    LaunchedEffect(vehicleState?.caseTaxiList) {
+        if (selectedId == null) {
+            vehicleState?.caseTaxiList?.firstOrNull()?.let { taxi ->
+                selectedId = taxi.id
+            }
+        }
+    }
+
 
     Scaffold(
         bottomBar = {
             UberPrimaryButton(
-                onClick = navigateToHistory,
+                onClick = {
+                    vehicleState?.let {
+                        val selectedTaxi =
+                            (it.taxiList + it.caseTaxiList).find { it.id == selectedId }
+                        if (selectedTaxi != null) {
+                            sharedViewModel.selectTaxi(selectedTaxi)
+                            navigateToInformation()
+                        }
+                    }
+                },
                 text = "차량 서비스 예약",
+                enabled = selectedId != null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 6.dp)
@@ -63,45 +93,50 @@ fun VehicleScreen(
                 title = "차량 선택"
             )
 
-            CustomInfoContent(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                title = stringResource(R.string.vehicle_basic_proposal_title),
-                description = stringResource(R.string.vehicle_select_basic_car_desc)
-            ) {
-                TaxiSelectionList(
-                    taxiTypes = BasicTaxiType.entries.toImmutableList(),
-                    selectedType = selectedType,
-                    onTaxiSelect = { selectedType = it }
-                )
+            vehicleState?.taxiList?.let { basicList ->
+                CustomInfoContent(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    title = stringResource(R.string.vehicle_basic_proposal_title),
+                    description = stringResource(R.string.vehicle_select_basic_car_desc)
+                ) {
+                    TaxiSelectionList(
+                        taxi = basicList.toImmutableList(),
+                        selectedId = selectedId,
+                        onTaxiSelect = { selectedId = it.id }
+                    )
+                }
             }
 
-            CustomInfoContent(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                title = stringResource(R.string.vehicle_situation_proposal_title) ,
-                description = stringResource(R.string.vehicle_select_basic_car_desc)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(colors.bgWhite)
-                        .border(
-                            width = 1.dp,
-                            color = colors.btnActive,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(vertical = 16.dp, horizontal = 7.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    CustomCarItem(
-                        type = CustomCarType.AIRPORT,
-                        modifier = Modifier.fillMaxWidth()
-                    )
 
-                    TaxiSelectionList(
-                        taxiTypes = AirportTaxiType.entries.toImmutableList(),
-                        selectedType = selectedType,
-                        onTaxiSelect = { selectedType = it }
-                    )
+            vehicleState?.caseTaxiList?.let { caseList ->
+                CustomInfoContent(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                    title = stringResource(R.string.vehicle_situation_proposal_title),
+                    description = stringResource(R.string.vehicle_select_basic_car_desc)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(colors.bgWhite)
+                            .border(
+                                width = 1.dp,
+                                color = colors.btnActive,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(vertical = 16.dp, horizontal = 7.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        CustomCarItem(
+                            type = CustomCarType.AIRPORT,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        TaxiSelectionList(
+                            taxi = caseList.toImmutableList(),
+                            selectedId = selectedId,
+                            onTaxiSelect = { selectedId = it.id }
+                        )
+                    }
                 }
             }
 
@@ -131,7 +166,7 @@ fun TestInformationScreen() {
     AppTheme {
         VehicleScreen(
             navigateUp = {},
-            navigateToHistory = {}
+            navigateToInformation = {}
         )
     }
 }
