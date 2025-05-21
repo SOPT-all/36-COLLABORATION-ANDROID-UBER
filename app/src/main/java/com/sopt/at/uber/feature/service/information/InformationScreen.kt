@@ -6,6 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,23 +15,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.component.UberPrimaryButton
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
+import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.information.component.*
+import com.sopt.at.uber.feature.service.vehicle.component.TaxiSelectedItem
+import com.sopt.at.uber.feature.service.vehicle.component.UberDiscountCoupon
 
 @Composable
 fun InformationScreen(
     modifier: Modifier = Modifier,
     navigateToVehicle: () -> Unit,
-    navigateUp: () -> Unit
+    navigateToHistory: () -> Unit,
+    navigateUp: () -> Unit,
+    sharedViewModel: ServiceSharedViewModel = hiltViewModel(),
 ) {
+    val selectedTaxi by sharedViewModel.selectedTaxi.collectAsState()
+
+    val couponPrice = 5000
+    val minPrice = selectedTaxi?.let { it.min - couponPrice } ?: 15000
+    val maxPrice = selectedTaxi?.let { it.max - couponPrice } ?: 19000
+
     Scaffold(
         bottomBar = {
             UberPrimaryButton(
-                onClick = navigateToVehicle,
+                onClick = navigateToHistory,
                 text = "차량 서비스 예약",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,7 +79,6 @@ fun InformationScreen(
             )
             Spacer(modifier = Modifier.height(10.dp))
 
-            // TODO: 지도 수정
             Image(
                 modifier = Modifier
                     .fillMaxSize()
@@ -114,11 +127,17 @@ fun InformationScreen(
                 title = "차량 선택",
                 description = stringResource(R.string.information_select_car_desc)
             ) {
-                TaxiReservationButton(
+                selectedTaxi?.let { taxi ->
+                    TaxiSelectedItem(
+                        taxi = taxi,
+                        onTaxiClick = navigateToVehicle
+                    )
+                } ?: TaxiReservationButton(
                     onClick = navigateToVehicle,
                     text = "차량 서비스 예약"
                 )
             }
+
 
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 10.dp),
@@ -128,10 +147,21 @@ fun InformationScreen(
 
             CustomPriceInfo(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                description = "적용 가능한 할인 혜택이 없습니다.",
-                minPrice = 15000,
-                maxPrice = 19000
-            )
+                description =
+                    if (selectedTaxi != null)
+                        stringResource(R.string.information_select_coupon_desc)
+                    else
+                        stringResource(R.string.information_unselect_coupon_desc),
+                minPrice = minPrice,
+                maxPrice = maxPrice
+            ) {
+                if (selectedTaxi != null) {
+                    UberDiscountCoupon(
+                        price = couponPrice,
+                        onCouponSelect = {}
+                    )
+                }
+            }
 
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 10.dp),
@@ -179,6 +209,7 @@ fun TestInformationScreen() {
     AppTheme {
         InformationScreen(
             navigateUp = {},
+            navigateToHistory = {},
             navigateToVehicle = {}
         )
     }

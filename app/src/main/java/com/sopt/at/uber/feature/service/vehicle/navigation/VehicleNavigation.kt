@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.sopt.at.uber.core.navigation.Route
+import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.vehicle.VehicleScreen
 import kotlinx.serialization.Serializable
 
@@ -14,18 +15,20 @@ fun NavController.navigateToVehicle(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.vehicleGraph(
-    modifier: Modifier = Modifier,
-    navigateToHistory: () -> Unit,
-    navigateUp: () -> Unit
+    modifier: Modifier,
+    sharedViewModel: ServiceSharedViewModel,
+    navigateToInformation: () -> Unit,
+    navigateUp: () -> Unit,
 ) {
-    composable<Vehicle> {
+    composable<Vehicle>{
         VehicleScreen(
-            modifier = modifier,
-            navigateToHistory = navigateToHistory,
+            sharedViewModel = sharedViewModel,
+            navigateToInformation = navigateToInformation,
             navigateUp = navigateUp
         )
     }
 }
+
 
 @Serializable
 data object Vehicle : Route

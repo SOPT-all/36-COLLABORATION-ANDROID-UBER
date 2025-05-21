@@ -4,11 +4,13 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import com.sopt.at.uber.feature.account.navigation.accountGraph
 import com.sopt.at.uber.feature.activity.navigation.activityGraph
 import com.sopt.at.uber.feature.home.navigation.homeGraph
 import com.sopt.at.uber.feature.house.navigation.houseGraph
+import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.history.navigation.historyGraph
 import com.sopt.at.uber.feature.service.history.navigation.navigateToHistory
 import com.sopt.at.uber.feature.service.information.navigation.informationGraph
@@ -27,6 +29,7 @@ fun MainNavHost(
     navigator: MainNavigator,
     modifier: Modifier = Modifier
 ) {
+    val sharedViewModel: ServiceSharedViewModel = hiltViewModel()
     NavHost(
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
@@ -56,13 +59,16 @@ fun MainNavHost(
         )
         informationGraph(
             modifier = modifier,
+            sharedViewModel = sharedViewModel,
+            navigateToHistory = navigator.navController::navigateToHistory,
             navigateToVehicle = navigator.navController::navigateToVehicle,
             navigateUp = navigator::navigateUp
         )
         vehicleGraph(
             modifier = modifier,
-            navigateToHistory = navigator.navController::navigateToHistory,
-            navigateUp = navigator::navigateUp
+            sharedViewModel = sharedViewModel,
+            navigateToInformation = navigator.navController::navigateToInformation,
+            navigateUp = navigator::navigateUp,
         )
         historyGraph(
             modifier = modifier,
