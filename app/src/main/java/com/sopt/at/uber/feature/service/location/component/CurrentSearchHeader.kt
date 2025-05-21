@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
+import com.sopt.at.uber.core.util.noRippleClickable
 
 @Composable
 fun CurrentSearchHeader(
+    onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val dividerColor = colors.bgGraySub
@@ -55,6 +57,7 @@ fun CurrentSearchHeader(
         Text(
             text = stringResource(R.string.location_current_search_delete_all),
             style = typography.caption1M12.merge(color = colors.point2),
+            modifier = Modifier.noRippleClickable(onDeleteClick)
         )
     }
 }
@@ -62,5 +65,7 @@ fun CurrentSearchHeader(
 @Preview(showBackground = true)
 @Composable
 private fun CurrentSearchHeaderPreview() {
-    CurrentSearchHeader()
+    CurrentSearchHeader(
+        onDeleteClick = {}
+    )
 }
