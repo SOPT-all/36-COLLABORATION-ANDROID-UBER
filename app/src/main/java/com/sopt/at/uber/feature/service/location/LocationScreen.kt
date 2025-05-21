@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.feature.service.information.component.TopBar
 import com.sopt.at.uber.feature.service.location.component.CurrentSearchHeader
 import com.sopt.at.uber.feature.service.location.component.CurrentSearchItem
 import com.sopt.at.uber.feature.service.location.component.LocationTextField
@@ -67,7 +68,13 @@ fun LocationScreen(
             .fillMaxSize()
             .background(color = colors.bgWhite)
     ) {
-        // TODO: 종훈이가 구현한 TopBar 붙이기
+        item {
+            TopBar(
+                onBackClick = navigateUp,
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                title = "차량 서비스 예약"
+            )
+        }
         item {
             Spacer(Modifier.height(10.dp))
         }
