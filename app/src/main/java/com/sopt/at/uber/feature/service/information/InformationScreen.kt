@@ -149,9 +149,9 @@ fun InformationScreen(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
                 description =
                     if (selectedTaxi != null)
-                        stringResource(R.string.information_unselect_coupon_desc)
+                        stringResource(R.string.information_select_coupon_desc)
                     else
-                        stringResource(R.string.information_select_coupon_desc),
+                        stringResource(R.string.information_unselect_coupon_desc),
                 minPrice = minPrice,
                 maxPrice = maxPrice
             ) {
