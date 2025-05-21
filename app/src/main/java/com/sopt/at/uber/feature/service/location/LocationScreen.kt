@@ -1,5 +1,6 @@
 package com.sopt.at.uber.feature.service.location
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,25 +18,28 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.util.toast
+import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.information.component.TopBar
 import com.sopt.at.uber.feature.service.location.component.CurrentSearchHeader
 import com.sopt.at.uber.feature.service.location.component.CurrentSearchItem
 import com.sopt.at.uber.feature.service.location.component.LocationTextField
-import okhttp3.internal.immutableListOf
+import com.sopt.at.uber.feature.service.location.viewmodel.LocationViewModel
 
 enum class LocationField { DEPARTURE, DESTINATION }
 
@@ -44,22 +48,27 @@ fun LocationScreen(
     modifier: Modifier = Modifier,
     navigateToTime: () -> Unit,
     navigateUp: () -> Unit,
+    sharedViewModel: ServiceSharedViewModel = hiltViewModel(),
+    locationViewModel: LocationViewModel = hiltViewModel()
 ) {
-    var departure by remember { mutableStateOf("") }
-    var destination by remember { mutableStateOf("") }
-    val currentSearchList = immutableListOf(
-        Triple("더좋은세상", "서울특별시 송파구 올림픽로35가길 10", "05.06"),
-        Triple("더좋은세상", "서울특별시 송파구 올림픽로35가길 10", "05.06"),
-        Triple("더좋은세상", "서울특별시 송파구 올림픽로35가길 10", "05.06"),
-        Triple("더좋은세상", "서울특별시 송파구 올림픽로35가길 10", "05.06")
-    )
-    var activeField by remember { mutableStateOf(LocationField.DEPARTURE) }
+    val state by locationViewModel.locationState.collectAsStateWithLifecycle()
+    val selectedDeparture by sharedViewModel.selectedDeparture.collectAsStateWithLifecycle()
+    val selectedDestination by sharedViewModel.selectedDestination.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
     val focusRequesterDeparture = remember { FocusRequester() }
     val focusRequesterDestination = remember { FocusRequester() }
 
+    val context = LocalContext.current
+
+    LaunchedEffect(state.errorMessage) {
+        state.errorMessage?.let {
+            context.toast(it, Toast.LENGTH_SHORT)
+        }
+    }
+
     LaunchedEffect(Unit) {
+        locationViewModel.getSearchList()
         focusRequesterDeparture.requestFocus()
     }
 
@@ -87,8 +96,8 @@ fun LocationScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 LocationTextField(
-                    value = departure,
-                    onValueChange = { departure = it },
+                    value = selectedDeparture,
+                    onValueChange = { sharedViewModel.updateDeparture(it) },
                     hint = stringResource(R.string.location_hint_departure),
                     leadingContent = {
                         Icon(
@@ -98,7 +107,7 @@ fun LocationScreen(
                         )
                     },
                     onFocusChange = { focused ->
-                        if (focused) activeField = LocationField.DEPARTURE
+                        if (focused) locationViewModel.updateActiveTextField(LocationField.DEPARTURE)
                     },
                     focusRequester = focusRequesterDeparture,
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -111,8 +120,8 @@ fun LocationScreen(
                     )
                 )
                 LocationTextField(
-                    value = destination,
-                    onValueChange = { destination = it },
+                    value = selectedDestination,
+                    onValueChange = { sharedViewModel.updateDestination(it) },
                     hint = stringResource(R.string.location_hint_destination),
                     leadingContent = {
                         Icon(
@@ -122,7 +131,7 @@ fun LocationScreen(
                         )
                     },
                     onFocusChange = { focused ->
-                        if (focused) activeField = LocationField.DESTINATION
+                        if (focused) locationViewModel.updateActiveTextField(LocationField.DESTINATION)
                     },
                     focusRequester = focusRequesterDestination,
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -131,8 +140,8 @@ fun LocationScreen(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             focusManager.clearFocus()
-                            if(departure.isNotBlank() && destination.isNotBlank())
-                                navigateToTime()
+                            if(selectedDeparture.isNotBlank() && selectedDestination.isNotBlank())
+                                locationViewModel.postLocation(selectedDeparture, selectedDestination, navigateToTime)
                         }
                     )
                 )
@@ -149,24 +158,27 @@ fun LocationScreen(
             )
         }
         item {
-            CurrentSearchHeader()
+            CurrentSearchHeader(
+                onDeleteClick = {
+                    // TODO: 시현이가 전체 삭제 연결
+                }
+            )
         }
-        items(currentSearchList) { item ->
-            val selectedLocation = item.first
+        items(state.currentSearchList, key = { it.id }) { item ->
+            val selectedLocation = item.location
             CurrentSearchItem(
-                locationName = item.first,
-                locationAddress = item.second,
-                dateString = item.third,
-                onDeleteClick = {},
+                locationName = item.location,
+                locationAddress = item.address,
+                dateString = item.date,
+                onDeleteClick = {
+                    locationViewModel.deleteSearchHistoryWithId(item.id)
+                },
                 onSectionClick = {
-                    when (activeField) {
-                        LocationField.DEPARTURE -> departure = selectedLocation
-                        LocationField.DESTINATION -> destination = selectedLocation
+                    when (state.activeField) {
+                        LocationField.DEPARTURE -> sharedViewModel.updateDeparture(selectedLocation)
+                        LocationField.DESTINATION -> sharedViewModel.updateDestination(selectedLocation)
                     }
                     focusManager.clearFocus()
-                    if (departure.isNotBlank() && destination.isNotBlank()) {
-                        navigateToTime()
-                    }
                 }
             )
         }
