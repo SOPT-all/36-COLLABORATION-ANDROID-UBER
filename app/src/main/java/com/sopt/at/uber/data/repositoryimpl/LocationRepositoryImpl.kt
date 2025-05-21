@@ -2,7 +2,9 @@ package com.sopt.at.uber.data.repositoryimpl
 
 import android.util.Log
 import com.sopt.at.uber.data.datasource.LocationDataSource
+import com.sopt.at.uber.data.dto.base.BaseResponse
 import com.sopt.at.uber.data.mapper.toSearchKeywordListModel
+import com.sopt.at.uber.data.service.LocationService
 import com.sopt.at.uber.domain.model.SearchKeywordListModel
 import com.sopt.at.uber.domain.repository.LocationRepository
 import javax.inject.Inject
@@ -26,4 +28,8 @@ class LocationRepositoryImpl @Inject constructor(
             val response = locationDataSource.deleteSearchHistoryWithId(id)
             response.data
         }
+
+    override suspend fun deleteAllSearchHistory(): BaseResponse<Unit> {
+        return locationDataSource.deleteAllSearchHistory()
+    }
 }

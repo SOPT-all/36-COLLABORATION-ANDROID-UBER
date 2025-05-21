@@ -84,4 +84,28 @@ class LocationViewModel @Inject constructor(
                 }
         }
     }
+
+    fun deleteAllSearchHistory(onSuccess: () -> Unit = {}, onFailure: (String) -> Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = repository.deleteAllSearchHistory()
+                if (response.code == 200L) {
+                    _locationState.update {
+                        it.copy(
+                            currentSearchList = emptyList(),
+                            errorMessage = "전체 삭제 완료"
+                        )
+                    }
+                    onSuccess()
+                } else {
+                    _locationState.update { it.copy(errorMessage = response.msg) }
+                    onFailure(response.msg)
+                }
+            } catch (e: Exception) {
+                _locationState.update { it.copy(errorMessage = "서버 오류: ${e.message}") }
+                onFailure("서버 오류: ${e.message}")
+            }
+        }
+    }
+
 }
