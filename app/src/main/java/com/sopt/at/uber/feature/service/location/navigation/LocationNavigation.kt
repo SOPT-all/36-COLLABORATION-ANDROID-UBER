@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.sopt.at.uber.core.navigation.Route
+import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.location.LocationScreen
 import kotlinx.serialization.Serializable
 
@@ -15,12 +16,14 @@ fun NavController.navigateToLocation(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.locationGraph(
     modifier: Modifier = Modifier,
+    sharedViewModel: ServiceSharedViewModel,
     navigateToTime: () -> Unit,
     navigateUp: () -> Unit,
 ) {
     composable<Location> {
         LocationScreen(
             modifier = modifier,
+            sharedViewModel = sharedViewModel,
             navigateToTime = navigateToTime,
             navigateUp = navigateUp
         )

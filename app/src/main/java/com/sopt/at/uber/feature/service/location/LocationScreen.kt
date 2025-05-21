@@ -26,13 +26,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sopt.at.uber.R
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
+import com.sopt.at.uber.core.type.LocationFieldType
 import com.sopt.at.uber.core.util.toast
 import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.information.component.TopBar
@@ -40,8 +43,6 @@ import com.sopt.at.uber.feature.service.location.component.CurrentSearchHeader
 import com.sopt.at.uber.feature.service.location.component.CurrentSearchItem
 import com.sopt.at.uber.feature.service.location.component.LocationTextField
 import com.sopt.at.uber.feature.service.location.viewmodel.LocationViewModel
-
-enum class LocationField { DEPARTURE, DESTINATION }
 
 @Composable
 fun LocationScreen(
@@ -100,7 +101,7 @@ fun LocationScreen(
                     )
                 },
                 onFocusChange = { focused ->
-                    if (focused) locationViewModel.updateActiveTextField(LocationField.DEPARTURE)
+                    if (focused) locationViewModel.updateActiveTextField(LocationFieldType.DEPARTURE)
                 },
                 focusRequester = focusRequesterDeparture,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -124,7 +125,7 @@ fun LocationScreen(
                     )
                 },
                 onFocusChange = { focused ->
-                    if (focused) locationViewModel.updateActiveTextField(LocationField.DESTINATION)
+                    if (focused) locationViewModel.updateActiveTextField(LocationFieldType.DESTINATION)
                 },
                 focusRequester = focusRequesterDestination,
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -133,10 +134,10 @@ fun LocationScreen(
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
-                        if (selectedDeparture.isNotBlank() && selectedDestination.isNotBlank())
+                        if (selectedDeparture.text.isNotBlank() && selectedDestination.text.isNotBlank())
                             locationViewModel.postLocation(
-                                selectedDeparture,
-                                selectedDestination,
+                                selectedDeparture.text,
+                                selectedDestination.text,
                                 navigateToTime
                             )
                     }
@@ -156,7 +157,10 @@ fun LocationScreen(
         )
         LazyColumn {
             items(state.currentSearchList, key = { it.id }) { item ->
-                val selectedLocation = item.location
+                val selectedLocation = TextFieldValue(
+                    item.location,
+                    TextRange(item.location.length)
+                )
                 CurrentSearchItem(
                     locationName = item.location,
                     locationAddress = item.address,
@@ -165,14 +169,13 @@ fun LocationScreen(
                         locationViewModel.deleteSearchHistoryWithId(item.id)
                     },
                     onSectionClick = {
-                        when (state.activeField) {
-                            LocationField.DEPARTURE -> sharedViewModel.updateDeparture(
-                                selectedLocation
-                            )
-
-                            LocationField.DESTINATION -> sharedViewModel.updateDestination(
-                                selectedLocation
-                            )
+                        sharedViewModel.selectLocationAndPost(
+                            field = state.activeField,
+                            location = selectedLocation,
+                            departure = selectedDeparture,
+                            destination = selectedDestination
+                        ) { departure, destination ->
+                            locationViewModel.postLocation(departure, destination, navigateToTime)
                         }
                         focusManager.clearFocus()
                     }

@@ -35,6 +35,8 @@ fun InformationScreen(
     sharedViewModel: ServiceSharedViewModel = hiltViewModel(),
 ) {
     val selectedTaxi by sharedViewModel.selectedTaxi.collectAsState()
+    val selectedDeparture by sharedViewModel.selectedDeparture.collectAsState()
+    val selectedDestination by sharedViewModel.selectedDestination.collectAsState()
 
     val couponPrice = 5000
     val minPrice = selectedTaxi?.let { it.min - couponPrice } ?: 15000
@@ -71,11 +73,11 @@ fun InformationScreen(
             )
             CustomInfoTextField(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                value = "서울시 마포구 동교로 19길 86"
+                value = selectedDeparture.text
             )
             CustomInfoTextField(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                value = "김포공항"
+                value = selectedDestination.text
             )
             Spacer(modifier = Modifier.height(10.dp))
 

@@ -49,6 +49,7 @@ fun MainNavHost(
         )
         locationGraph(
             modifier = modifier,
+            sharedViewModel = sharedViewModel,
             navigateToTime = navigator.navController::navigateToTime,
             navigateUp = navigator::navigateUp
         )

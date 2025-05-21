@@ -3,10 +3,10 @@ package com.sopt.at.uber.feature.service.location.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sopt.at.uber.core.type.LocationFieldType
 import com.sopt.at.uber.core.util.parseErrorMessage
 import com.sopt.at.uber.domain.model.SearchKeywordModel
 import com.sopt.at.uber.domain.repository.LocationRepository
-import com.sopt.at.uber.feature.service.location.LocationField
 import com.sopt.at.uber.feature.service.location.LocationState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +30,7 @@ class LocationViewModel @Inject constructor(
         }
     }
 
-    fun updateActiveTextField(activeField: LocationField) {
+    fun updateActiveTextField(activeField: LocationFieldType) {
         _locationState.update {
             _locationState.value.copy(
                 activeField = activeField
