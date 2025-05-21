@@ -71,116 +71,113 @@ fun LocationScreen(
         locationViewModel.getSearchList()
         focusRequesterDeparture.requestFocus()
     }
-
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
+    Column(
+        modifier = modifier.fillMaxSize()
             .background(color = colors.bgWhite)
     ) {
-        item {
-            TopBar(
-                onBackClick = navigateUp,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-                title = "차량 서비스 예약"
+        TopBar(
+            onBackClick = navigateUp,
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+            title = "차량 서비스 예약"
+        )
+        Spacer(Modifier.height(10.dp))
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(color = colors.bgWhite)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            LocationTextField(
+                value = selectedDeparture,
+                onValueChange = { sharedViewModel.updateDeparture(it) },
+                hint = stringResource(R.string.location_hint_departure),
+                leadingContent = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_departures),
+                        contentDescription = "",
+                        tint = colors.textSub3
+                    )
+                },
+                onFocusChange = { focused ->
+                    if (focused) locationViewModel.updateActiveTextField(LocationField.DEPARTURE)
+                },
+                focusRequester = focusRequesterDeparture,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusRequesterDestination.requestFocus()
+                    }
+                )
+            )
+            LocationTextField(
+                value = selectedDestination,
+                onValueChange = { sharedViewModel.updateDestination(it) },
+                hint = stringResource(R.string.location_hint_destination),
+                leadingContent = {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_destination),
+                        contentDescription = stringResource(R.string.location_hint_destination),
+                        tint = colors.textSub3
+                    )
+                },
+                onFocusChange = { focused ->
+                    if (focused) locationViewModel.updateActiveTextField(LocationField.DESTINATION)
+                },
+                focusRequester = focusRequesterDestination,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                        if (selectedDeparture.isNotBlank() && selectedDestination.isNotBlank())
+                            locationViewModel.postLocation(
+                                selectedDeparture,
+                                selectedDestination,
+                                navigateToTime
+                            )
+                    }
+                )
             )
         }
-        item {
-            Spacer(Modifier.height(10.dp))
-        }
-        item {
-            Column(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(color = colors.bgWhite)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                LocationTextField(
-                    value = selectedDeparture,
-                    onValueChange = { sharedViewModel.updateDeparture(it) },
-                    hint = stringResource(R.string.location_hint_departure),
-                    leadingContent = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_departures),
-                            contentDescription = "",
-                            tint = colors.textSub3
-                        )
+        Spacer(Modifier.height(20.dp))
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            color = colors.bgGray,
+            thickness = 6.dp
+        )
+        CurrentSearchHeader(
+            onDeleteClick = {
+                // TODO: 시현이가 전체 삭제 연결
+            }
+        )
+        LazyColumn {
+            items(state.currentSearchList, key = { it.id }) { item ->
+                val selectedLocation = item.location
+                CurrentSearchItem(
+                    locationName = item.location,
+                    locationAddress = item.address,
+                    dateString = item.date,
+                    onDeleteClick = {
+                        locationViewModel.deleteSearchHistoryWithId(item.id)
                     },
-                    onFocusChange = { focused ->
-                        if (focused) locationViewModel.updateActiveTextField(LocationField.DEPARTURE)
-                    },
-                    focusRequester = focusRequesterDeparture,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Next
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {
-                            focusRequesterDestination.requestFocus()
+                    onSectionClick = {
+                        when (state.activeField) {
+                            LocationField.DEPARTURE -> sharedViewModel.updateDeparture(
+                                selectedLocation
+                            )
+
+                            LocationField.DESTINATION -> sharedViewModel.updateDestination(
+                                selectedLocation
+                            )
                         }
-                    )
-                )
-                LocationTextField(
-                    value = selectedDestination,
-                    onValueChange = { sharedViewModel.updateDestination(it) },
-                    hint = stringResource(R.string.location_hint_destination),
-                    leadingContent = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_destination),
-                            contentDescription = stringResource(R.string.location_hint_destination),
-                            tint = colors.textSub3
-                        )
-                    },
-                    onFocusChange = { focused ->
-                        if (focused) locationViewModel.updateActiveTextField(LocationField.DESTINATION)
-                    },
-                    focusRequester = focusRequesterDestination,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            focusManager.clearFocus()
-                            if(selectedDeparture.isNotBlank() && selectedDestination.isNotBlank())
-                                locationViewModel.postLocation(selectedDeparture, selectedDestination, navigateToTime)
-                        }
-                    )
+                        focusManager.clearFocus()
+                    }
                 )
             }
-        }
-        item {
-            Spacer(Modifier.height(20.dp))
-        }
-        item {
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                color = colors.bgGray,
-                thickness = 6.dp
-            )
-        }
-        item {
-            CurrentSearchHeader(
-                onDeleteClick = {
-                    // TODO: 시현이가 전체 삭제 연결
-                }
-            )
-        }
-        items(state.currentSearchList, key = { it.id }) { item ->
-            val selectedLocation = item.location
-            CurrentSearchItem(
-                locationName = item.location,
-                locationAddress = item.address,
-                dateString = item.date,
-                onDeleteClick = {
-                    locationViewModel.deleteSearchHistoryWithId(item.id)
-                },
-                onSectionClick = {
-                    when (state.activeField) {
-                        LocationField.DEPARTURE -> sharedViewModel.updateDeparture(selectedLocation)
-                        LocationField.DESTINATION -> sharedViewModel.updateDestination(selectedLocation)
-                    }
-                    focusManager.clearFocus()
-                }
-            )
         }
     }
 }
