@@ -1,6 +1,7 @@
 package com.sopt.at.uber.data.di
 
 import com.sopt.at.uber.data.service.DummyUberService
+import com.sopt.at.uber.data.service.LocationService
 import com.sopt.at.uber.data.service.VehicleService
 import dagger.Module
 import dagger.Provides
@@ -20,5 +21,11 @@ object ApiModule {
     @Singleton
     fun providesVehicleService(retrofit: Retrofit): VehicleService =
         retrofit.create(VehicleService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesLocationService(retrofit: Retrofit): LocationService =
+        retrofit.create(LocationService::class.java)
+
 
 }

@@ -1,10 +1,10 @@
 package com.sopt.at.uber.data.di
 
-import com.sopt.at.uber.data.datasource.VehicleDataSource
-import com.sopt.at.uber.data.datasourceimpl.VehicleDataSourceImpl
 import com.sopt.at.uber.data.repositoryimpl.DummyUberRepositoryImpl
+import com.sopt.at.uber.data.repositoryimpl.LocationRepositoryImpl
 import com.sopt.at.uber.data.repositoryimpl.VehicleRepositoryImpl
 import com.sopt.at.uber.domain.repository.DummyUberRepository
+import com.sopt.at.uber.domain.repository.LocationRepository
 import com.sopt.at.uber.domain.repository.VehicleRepository
 import dagger.Binds
 import dagger.Module
@@ -27,9 +27,10 @@ abstract class RepositoryModule {
         vehicleRepositoryImpl: VehicleRepositoryImpl
     ): VehicleRepository
 
+
     @Binds
     @Singleton
-    abstract fun bindVehicleDataSource(
-        impl: VehicleDataSourceImpl
-    ): VehicleDataSource
+    abstract fun bindLocationRepository(
+        locationRepositoryImpl: LocationRepositoryImpl
+    ) : LocationRepository
 }

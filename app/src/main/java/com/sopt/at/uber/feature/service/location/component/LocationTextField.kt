@@ -33,6 +33,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,8 +46,8 @@ import com.sopt.at.uber.core.util.noRippleClickable
 
 @Composable
 fun LocationTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
     hint: String,
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester = remember { FocusRequester() },
@@ -61,11 +63,11 @@ fun LocationTextField(
     val borderColor =
         textFieldBorderColor
             ?: when {
-                isFocused || value.isEmpty()-> Color.Transparent
+                isFocused || value.text.isEmpty()-> Color.Transparent
                 else -> colors.bgGraySub
             }
-    val textColor = if (isFocused || value.isEmpty()) colors.textSub2 else colors.textPrimary
-    val backgroundColor = if (isFocused || value.isEmpty()) colors.bgGray else colors.bgWhite
+    val textColor = if (isFocused || value.text.isEmpty()) colors.textSub2 else colors.textPrimary
+    val backgroundColor = if (isFocused || value.text.isEmpty()) colors.bgGray else colors.bgWhite
 
     Column(
         modifier = modifier
@@ -97,7 +99,7 @@ fun LocationTextField(
                             .weight(1f)
                             .padding(start = 16.dp)
                     ) {
-                        if (value.isEmpty()) {
+                        if (value.text.isEmpty()) {
                             Text(
                                 text = hint,
                                 style = typography.body1SB16.merge(color = colors.textSub3),
@@ -110,7 +112,7 @@ fun LocationTextField(
                             .wrapContentWidth(align = Alignment.End),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (value.isNotEmpty() && !isFocused)
+                        if (value.text.isNotEmpty() && !isFocused)
                            Icon(
                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_delete),
                                contentDescription = "",
@@ -118,7 +120,12 @@ fun LocationTextField(
                                modifier = Modifier
                                    .size(24.dp)
                                    .noRippleClickable {
-                                       onValueChange("")
+                                       onValueChange(
+                                           TextFieldValue(
+                                               "",
+                                               TextRange(0)
+                                           )
+                                       )
                                        focusRequester.requestFocus()
                                    }
                            )
@@ -149,11 +156,18 @@ fun LocationTextField(
 @Preview
 @Composable
 private fun LocationTextFieldPreview() {
-    var text by remember { mutableStateOf("") }
-    AppTheme{
+    var textValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                "",
+                TextRange(0)
+            )
+        )
+    }
+    AppTheme {
         LocationTextField(
-            value = text,
-            onValueChange = { text = it },
+            value = textValue,
+            onValueChange = { textValue = it },
             hint = stringResource(R.string.location_hint_departure),
             leadingContent = {
                 Icon(
