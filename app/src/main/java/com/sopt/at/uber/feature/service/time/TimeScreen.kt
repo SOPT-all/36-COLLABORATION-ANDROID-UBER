@@ -13,7 +13,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sopt.at.uber.R
-import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import com.sopt.at.uber.feature.service.ServiceSharedViewModel
