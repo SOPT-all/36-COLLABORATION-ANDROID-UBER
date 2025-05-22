@@ -1,4 +1,4 @@
-package com.sopt.at.uber.feature.service.time.util
+package com.sopt.at.uber.core.util
 
 import java.time.format.TextStyle
 import java.time.LocalDate
