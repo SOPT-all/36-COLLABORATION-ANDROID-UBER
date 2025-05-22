@@ -23,7 +23,7 @@ import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.information.component.*
-import com.sopt.at.uber.feature.service.time.util.TimeInfoFormatter
+import com.sopt.at.uber.core.util.TimeInfoFormatter
 import com.sopt.at.uber.feature.service.vehicle.component.TaxiSelectedItem
 import com.sopt.at.uber.feature.service.vehicle.component.UberDiscountCoupon
 
