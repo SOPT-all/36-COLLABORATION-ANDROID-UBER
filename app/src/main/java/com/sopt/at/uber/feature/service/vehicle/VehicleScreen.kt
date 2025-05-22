@@ -162,7 +162,7 @@ fun VehicleScreen(
 
 @Preview
 @Composable
-fun TestInformationScreen() {
+fun TestVehicleScreen() {
     AppTheme {
         VehicleScreen(
             navigateUp = {},
