@@ -71,9 +71,9 @@ fun TimeScreen(
             ) {
                 Text(
                     text = stringResource(R.string.time_desc),
-                    style = typography.caption1M12,
+                    style = typography.body2M14,
                     color = colors.textSub2,
-                    modifier = Modifier.padding(bottom = 6.dp)
+                    modifier = Modifier.padding(bottom = 6.dp),
                 )
                 UberPrimaryButton(
                     onClick = navigateToInformation,
