@@ -17,9 +17,7 @@
     <string name="information_select_coupon_desc">최고 할인 혜택이 자동 적용된 금액입니다</string>
 
     <!-- time screen-->
-    <string name="time_desc">예상 교통 상황을 바탕으로 한 예상 시간입니다. 실제 교통량에 따라 도착\n
-        시간이 변경될 수 있습니다. 픽업 1시간 전까지 또는 기사님이 배정되기\n
-        전까지는 취소 수수료가 부과되지 않습니다.약관보기</string>
+    <string name="time_desc">예상 교통 상황을 바탕으로 한 예상 시간입니다. 실제 교통량에 따라 도착\n시간이 변경될 수 있습니다. 픽업 1시간 전까지 또는 기사님이 배정되기\n전까지는 취소 수수료가 부과되지 않습니다.약관보기</string>
     
     <!-- history screen-->
     <string name="history_success_desc">성공적으로 예약이 완료되었습니다</string>
