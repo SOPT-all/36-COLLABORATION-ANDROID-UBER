@@ -26,4 +26,9 @@ class LocationDataSourceImpl @Inject constructor(
 
     override suspend fun deleteSearchHistoryWithId(id: Long): BaseResponse<Unit> =
         locationService.deleteLocation(id)
+
+    override suspend fun deleteAllSearchHistory(): BaseResponse<Unit> {
+        return locationService.deleteAllSearchHistory()
+    }
+
 }

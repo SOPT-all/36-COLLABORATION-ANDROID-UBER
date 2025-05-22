@@ -8,4 +8,5 @@ interface LocationDataSource {
     suspend fun postLocation(departures: String, destination: String): BaseResponse<Unit>
     suspend fun deleteSearchHistoryWithId(id: Long): BaseResponse<Unit>
 
+    suspend fun deleteAllSearchHistory(): BaseResponse<Unit>
 }

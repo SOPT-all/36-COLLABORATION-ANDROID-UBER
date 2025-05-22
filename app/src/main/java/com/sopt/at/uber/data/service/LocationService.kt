@@ -24,4 +24,6 @@ interface LocationService {
         @Path("id") id: Long
     ): BaseResponse<Unit>
 
+    @DELETE("/uber/v1/search")
+    suspend fun deleteAllSearchHistory(): BaseResponse<Unit>
 }
