@@ -13,6 +13,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sopt.at.uber.R
+import com.sopt.at.uber.core.component.UberPrimaryButton
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import com.sopt.at.uber.feature.service.ServiceSharedViewModel
@@ -41,10 +42,12 @@ fun TimeScreen(
 
     val timePickerState = rememberTimePickerState(selectedTime.hour, selectedTime.minute, false)
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+        initialSelectedDateMillis = selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant()
+            .toEpochMilli(),
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long) =
-                utcTimeMillis >= LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                utcTimeMillis >= LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()
+                    .toEpochMilli()
         }
     )
 
@@ -59,15 +62,127 @@ fun TimeScreen(
     val (arrivalMeridiem, arrivalHour12, arrivalMinute) = selectedTime.plusMinutes(25).toUiTime()
     val dayOfWeekKorean = selectedDate.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREA)
 
-    Surface(modifier = Modifier.fillMaxSize(), color = colors.bgWhite) {
+    Scaffold(
+        bottomBar = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 10.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.time_desc),
+                    style = typography.caption1M12,
+                    color = colors.textSub2,
+                    modifier = Modifier.padding(bottom = 6.dp)
+                )
+                UberPrimaryButton(
+                    onClick = navigateToInformation,
+                    text = "다음",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        containerColor = colors.bgWhite
+    ) { innerPadding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            TopBar(
+                onBackClick = navigateUp,
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                title = ""
+            )
+            Text(
+                "픽업 시간",
+                style = typography.title1Eb32,
+                modifier = Modifier.padding(start = 14.dp, bottom = 89.dp)
+            )
+            Spacer(Modifier.height(16.dp))
+
+            Button(
+                onClick = { showDatePicker = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colors.bgWhite,
+                    contentColor = colors.textPrimary
+                )
+            ) {
+                Text(
+                    "${selectedDate.monthValue}월 ${selectedDate.dayOfMonth}일 ($dayOfWeekKorean)",
+                    style = typography.title4B18,
+                    color = colors.textPrimary
+                )
+            }
+
+            HorizontalDivider(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+            Spacer(Modifier.height(12.dp))
+
+            Button(
+                onClick = { showTimePicker = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colors.bgWhite,
+                    contentColor = colors.textPrimary
+                )
+            ) {
+                Text(
+                    "$pickupMeridiem $pickupHour12:$pickupMinute",
+                    style = typography.title4B18,
+                    color = colors.textPrimary
+                )
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            Text(
+                "도착 시간 $arrivalMeridiem $arrivalHour12:$arrivalMinute KST",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                style = typography.body1SB16,
+                color = colors.textPrimary
+            )
+            Text(
+                "약 25분 소요 예상",
+                style = typography.caption1M12,
+                color = colors.textSub2,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+
         if (showDatePicker) {
-            Dialog(onDismissRequest = { showDatePicker = false }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+            Dialog(
+                onDismissRequest = { showDatePicker = false },
+                properties = DialogProperties(usePlatformDefaultWidth = false)
+            ) {
                 Surface(
                     shape = RoundedCornerShape(16.dp),
                     color = colors.bgWhite,
-                    modifier = Modifier.width(500.dp).padding(5.dp)
+                    modifier = Modifier
+                        .width(500.dp)
+                        .padding(5.dp)
                 ) {
-                    Column(modifier = Modifier.padding(5.dp).fillMaxWidth()) {
+                    Column(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxWidth()
+                    ) {
                         DatePicker(
                             state = datePickerState,
                             colors = DatePickerDefaults.colors(
@@ -87,14 +202,19 @@ fun TimeScreen(
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(Modifier.height(16.dp))
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
                             TextButton(onClick = { showDatePicker = false }) {
                                 Text("취소", color = colors.textPrimary)
                             }
                             Spacer(Modifier.width(8.dp))
                             TextButton(onClick = {
                                 datePickerState.selectedDateMillis?.let {
-                                    selectedDate = Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault()).toLocalDate()
+                                    selectedDate =
+                                        Instant.ofEpochMilli(it).atZone(ZoneId.systemDefault())
+                                            .toLocalDate()
                                     sharedViewModel.updatePickupDate(selectedDate)
                                 }
                                 showDatePicker = false
@@ -148,48 +268,6 @@ fun TimeScreen(
                 },
                 containerColor = colors.bgWhite
             )
-        }
-
-        Column(Modifier.fillMaxSize()) {
-            TopBar(onBackClick = navigateUp, modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp), title = "")
-            Text("픽업 시간", style = typography.title1Eb32, modifier = Modifier.padding(start = 14.dp, bottom = 89.dp))
-            Spacer(Modifier.height(16.dp))
-
-            Button(
-                onClick = { showDatePicker = true },
-                modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = colors.bgWhite, contentColor = colors.textPrimary)
-            ) {
-                Text("${selectedDate.monthValue}월 ${selectedDate.dayOfMonth}일 ($dayOfWeekKorean)", style = typography.title4B18)
-            }
-
-            HorizontalDivider(Modifier.fillMaxWidth().padding(horizontal = 16.dp))
-            Spacer(Modifier.height(12.dp))
-
-            Button(
-                onClick = { showTimePicker = true },
-                modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = colors.bgWhite, contentColor = colors.textPrimary)
-            ) {
-                Text("$pickupMeridiem $pickupHour12:$pickupMinute", style = typography.title4B18)
-            }
-
-            Spacer(Modifier.height(24.dp))
-
-            Text("도착 시간 $arrivalMeridiem $arrivalHour12:$arrivalMinute KST", textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 10.dp), style = typography.body1M16, color = colors.bgBlack)
-            Text("약 25분 소요 예상", style = typography.caption1M12, color = colors.textSub2, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Text(stringResource(R.string.time_desc), style = typography.caption1M12, color = colors.textSub2, modifier = Modifier.padding(top = 198.dp, start = 16.dp, end = 16.dp))
-
-            Button(
-                onClick = navigateToInformation,
-                modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 16.dp, vertical = 6.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = colors.btnActive, contentColor = colors.btnInactive)
-            ) {
-                Text("다음", style = typography.title4B18)
-            }
         }
     }
 }
