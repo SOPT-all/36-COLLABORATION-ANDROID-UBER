@@ -48,15 +48,6 @@ fun InformationScreen(
     val arrival = TimeInfoFormatter.getArrivalDisplayData(selectedTime)
 
     Scaffold(
-        bottomBar = {
-            UberPrimaryButton(
-                onClick = navigateToHistory,
-                text = "차량 서비스 예약",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 6.dp)
-            )
-        },
         containerColor = colors.bgWhite
     ) { innerPadding ->
         Column(
@@ -207,6 +198,16 @@ fun InformationScreen(
                     tint = Color.Unspecified
                 )
             }
+            UberPrimaryButton(
+                onClick = navigateToHistory,
+                text = if (selectedTaxi != null)
+                    "${selectedTaxi!!.type} 예약하기"
+                else
+                    "차량 서비스 예약",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 6.dp)
+            )
         }
     }
 }
