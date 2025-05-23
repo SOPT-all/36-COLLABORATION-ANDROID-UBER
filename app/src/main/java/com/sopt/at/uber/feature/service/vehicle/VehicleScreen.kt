@@ -46,6 +46,10 @@ fun VehicleScreen(
 ) {
     val vehicleState by viewModel.vehicleState.collectAsState()
     var selectedId by remember { mutableStateOf<Int?>(null) }
+    val selectedTaxi = vehicleState?.let {
+        (it.taxiList + it.caseTaxiList).find { it.id == selectedId }
+    }
+
 
     LaunchedEffect(Unit) {
         viewModel.getTaxiLists()
@@ -57,22 +61,16 @@ fun VehicleScreen(
             }
         }
     }
-
-
     Scaffold(
         bottomBar = {
             UberPrimaryButton(
                 onClick = {
-                    vehicleState?.let {
-                        val selectedTaxi =
-                            (it.taxiList + it.caseTaxiList).find { it.id == selectedId }
-                        if (selectedTaxi != null) {
-                            sharedViewModel.selectTaxi(selectedTaxi)
-                            navigateToInformation()
-                        }
+                    selectedTaxi?.let {
+                        sharedViewModel.selectTaxi(it)
+                        navigateToInformation()
                     }
                 },
-                text = "차량 서비스 예약",
+                text = "${selectedTaxi?.type ?: "Uber Taxi"} 예약하기",
                 enabled = selectedId != null,
                 modifier = Modifier
                     .fillMaxWidth()

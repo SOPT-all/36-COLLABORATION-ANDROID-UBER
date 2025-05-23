@@ -200,10 +200,7 @@ fun InformationScreen(
             }
             UberPrimaryButton(
                 onClick = navigateToHistory,
-                text = if (selectedTaxi != null)
-                    "${selectedTaxi!!.type} 예약하기"
-                else
-                    "차량 서비스 예약",
+                text = selectedTaxi?.type?.let { "$it 예약하기" } ?: "차량 서비스 예약",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 6.dp)
