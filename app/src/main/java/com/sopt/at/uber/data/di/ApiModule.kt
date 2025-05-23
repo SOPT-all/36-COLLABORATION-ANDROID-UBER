@@ -1,6 +1,5 @@
 package com.sopt.at.uber.data.di
 
-import com.sopt.at.uber.data.service.DummyUberService
 import com.sopt.at.uber.data.service.LocationService
 import com.sopt.at.uber.data.service.VehicleService
 import dagger.Module
@@ -13,10 +12,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    @Provides
-    @Singleton
-    fun providesUberService(retrofit: Retrofit): DummyUberService =
-        retrofit.create(DummyUberService::class.java)
     @Provides
     @Singleton
     fun providesVehicleService(retrofit: Retrofit): VehicleService =
