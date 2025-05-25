@@ -4,10 +4,10 @@
 <br>
 
 ## Contributors 💚
-| SOPT 36th 안드로이드 | [진지현](https://github.com/serioushyeon) | [이종훈](https://github.com/fredleeJH) | [박시현](https://github.com/88guri) |
+| SOPT 36th 안드로이드 | [진지현 (LEAD)](https://github.com/serioushyeon) | [이종훈](https://github.com/fredleeJH) | [박시현](https://github.com/88guri) |
 |:------------------------------------:|:------------------------------------:|:-------------------------:|:------------------------------:|
 | <img src="https://github.com/user-attachments/assets/b2e4552f-2764-4df7-862c-6b762fcbc44e" alt="단체사진" width="420"/> | <img src="https://avatars.githubusercontent.com/serioushyeon" alt="지현" width="250"/> | <img src="https://avatars.githubusercontent.com/fredleeJH" alt="종훈" width="250"/> | <img src="https://avatars.githubusercontent.com/88guri" alt="시현" width="250"/> |
-| **UBER** |     `검색 뷰`     |       `차량 예약 정보 뷰` <br> `차량 선택 뷰` <br> `예약 완료 뷰`       |      `홈 뷰` <br> `시간 선택 뷰`      |
+| **UBER** |     `예약 안내 뷰` <br> `검색 뷰`    |       `차량 예약 정보 뷰` <br> `차량 선택 뷰` <br> `예약 완료 뷰`       |      `홈 뷰` <br> `시간 선택 뷰`      |
 <br>
 
 ## Video 🎬
