@@ -13,7 +13,8 @@
 ## Video 🎬
 ### [전체동작]
 
-https://github.com/user-attachments/assets/4910a357-2658-49b0-abbf-0820b773e086
+https://github.com/user-attachments/assets/88506e1e-05a1-454d-af0b-e1853ef0cb36
+
 
 
 <br>
