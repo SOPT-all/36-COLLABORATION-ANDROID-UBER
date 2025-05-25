@@ -23,6 +23,7 @@ import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.colors
 import com.sopt.at.uber.core.designsystem.ui.theme.AppTheme.typography
 import com.sopt.at.uber.feature.service.ServiceSharedViewModel
 import com.sopt.at.uber.feature.service.information.component.*
+import com.sopt.at.uber.core.util.TimeInfoFormatter
 import com.sopt.at.uber.feature.service.vehicle.component.TaxiSelectedItem
 import com.sopt.at.uber.feature.service.vehicle.component.UberDiscountCoupon
 
@@ -37,21 +38,16 @@ fun InformationScreen(
     val selectedTaxi by sharedViewModel.selectedTaxi.collectAsState()
     val selectedDeparture by sharedViewModel.selectedDeparture.collectAsState()
     val selectedDestination by sharedViewModel.selectedDestination.collectAsState()
+    val selectedDate by sharedViewModel.selectedDate.collectAsState()
+    val selectedTime by sharedViewModel.selectedTime.collectAsState()
 
     val couponPrice = 5000
     val minPrice = selectedTaxi?.let { it.min - couponPrice } ?: 15000
     val maxPrice = selectedTaxi?.let { it.max - couponPrice } ?: 19000
+    val pickup = TimeInfoFormatter.getPickupDisplayData(selectedDate, selectedTime)
+    val arrival = TimeInfoFormatter.getArrivalDisplayData(selectedTime)
 
     Scaffold(
-        bottomBar = {
-            UberPrimaryButton(
-                onClick = navigateToHistory,
-                text = "차량 서비스 예약",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 6.dp)
-            )
-        },
         containerColor = colors.bgWhite
     ) { innerPadding ->
         Column(
@@ -99,22 +95,23 @@ fun InformationScreen(
             CustomTimeInfo(
                 modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
                 type = TimeInfoType.PICKUP,
-                date = "05",
-                day = "05",
-                weekday = "(월)",
-                meridiem = "오전",
-                hour = "20",
-                minute = "16"
+                date = pickup.date,
+                day = pickup.day,
+                weekday = pickup.weekday,
+                meridiem = pickup.meridiem,
+                hour = pickup.hour,
+                minute = pickup.minute
             )
+
             CustomTimeInfo(
                 modifier = Modifier.padding(vertical = 10.dp, horizontal = 16.dp),
                 type = TimeInfoType.ARRIVAL,
-                date = "",
-                day = "",
-                weekday = "",
-                meridiem = "오전",
-                hour = "20",
-                minute = "31",
+                date = arrival.date,
+                day = arrival.day,
+                weekday = arrival.weekday,
+                meridiem = arrival.meridiem,
+                hour = arrival.hour,
+                minute = arrival.minute,
                 duration = "25"
             )
 
@@ -201,6 +198,13 @@ fun InformationScreen(
                     tint = Color.Unspecified
                 )
             }
+            UberPrimaryButton(
+                onClick = navigateToHistory,
+                text = selectedTaxi?.type?.let { "$it 예약하기" } ?: "차량 서비스 예약",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 6.dp)
+            )
         }
     }
 }

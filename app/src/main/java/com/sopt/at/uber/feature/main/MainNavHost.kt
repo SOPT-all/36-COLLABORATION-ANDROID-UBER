@@ -55,6 +55,7 @@ fun MainNavHost(
         )
         timeGraph(
             modifier = modifier,
+            sharedViewModel = sharedViewModel,
             navigateToInformation = navigator.navController::navigateToInformation,
             navigateUp = navigator::navigateUp
         )
